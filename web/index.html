@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetMonitor Web</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+    <!-- Top bar -->
+    <div id="topbar">
+        <span id="topbar-text">Servers: 0 | Clients: 0 | Total traffic: 0 b/s</span>
+        <span id="topbar-updated"></span>
+    </div>
+
+    <!-- Main layout -->
+    <div id="main-layout">
+        <!-- Left panel: servers table -->
+        <div id="left-panel">
+            <div id="servers-header" class="panel-header">
+                Servers
+                <div class="header-controls">
+                    <input type="text" id="search-input" placeholder="Search (PID/name/port)..." />
+                    <button id="pause-btn" title="Pause/Resume auto-update">⏸</button>
+                </div>
+            </div>
+            <div id="servers-table-container">
+                <table id="servers-table">
+                    <thead>
+                        <tr>
+                            <th data-sort="pid">PID</th>
+                            <th data-sort="name">PROCESS</th>
+                            <th data-sort="proto">PROTO</th>
+                            <th data-sort="local_ip">LOCAL</th>
+                            <th data-sort="port">PORT</th>
+                            <th data-sort="client_count">CLIENTS</th>
+                            <th data-sort="rx_rate">RX/s</th>
+                            <th data-sort="tx_rate">TX/s</th>
+                        </tr>
+                    </thead>
+                    <tbody id="servers-tbody"></tbody>
+                </table>
+            </div>
+            <div id="client-table-container" style="display:none;">
+                <div class="panel-header">Clients</div>
+                <table id="client-table">
+                    <thead><tr id="client-header-row"></tr></thead>
+                    <tbody id="client-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Right panel: details + login info + monitors -->
+        <div id="right-panel">
+            <div id="server-detail" class="panel-header">Select a server</div>
+            <div id="detail-content">
+                <pre id="detail-pre">Select a server to view details</pre>
+            </div>
+
+            <div id="info-panel">
+                <div class="panel-header">System Info</div>
+                <table id="info-table">
+                    <thead><tr><th>Users</th><th>Sessions</th><th>Failed(1h)</th><th>Uptime</th></tr></thead>
+                    <tbody id="info-tbody"><tr><td>-</td><td>-</td><td>-</td><td>-</td></tr></tbody>
+                </table>
+            </div>
+
+            <!-- NEW: Monitors panel -->
+            <div id="monitors-panel">
+                <div id="monitors-tabs">
+                    <span class="monitor-tab active" data-tab="disk">💾 Dsk</span>
+                    <span class="monitor-tab" data-tab="network">🌐 Net</span>
+                    <span class="monitor-tab" data-tab="portscan">🔍 Scn</span>
+                    <span class="monitor-tab" data-tab="firewall">🛡  FW</span>
+                    <span class="monitor-tab" data-tab="webserver">📡 Web</span>
+                    <span class="monitor-tab" data-tab="dns">📋 DNS</span>
+                </div>
+                <div id="monitors-content">
+                    <div class="monitor-pane active" id="pane-disk">
+                        <div id="disk-content">Loading...</div>
+                    </div>
+                    <div class="monitor-pane" id="pane-network">
+                        <div id="network-content">Loading...</div>
+                    </div>
+                    <div class="monitor-pane" id="pane-portscan">
+                        <div id="portscan-content">Loading...</div>
+                    </div>
+                    <div class="monitor-pane" id="pane-firewall">
+                        <div id="firewall-content">Loading...</div>
+                    </div>
+                    <div class="monitor-pane" id="pane-webserver">
+                        <div id="webserver-content">Loading...</div>
+                    </div>
+                    <div class="monitor-pane" id="pane-dns">
+                        <div id="dns-content">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="login-panel">
+                <div class="panel-header">Recent Logins</div>
+                <div id="login-table-container">
+                    <table id="login-table">
+                        <thead><tr><th>Time</th><th>IP</th><th>Username</th><th>Status</th></tr></thead>
+                        <tbody id="login-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status bar -->
+    <div id="statusbar">
+        <span>Space Pause | / Search | S Toggle clients | K Kill | ? Help | Q Quit</span>
+        <span id="status-message"></span>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

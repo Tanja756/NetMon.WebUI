@@ -1,0 +1,477 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Consolas', 'Courier New', monospace;
+    background: #0a0a0a;
+    color: #d0d0d0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Top bar */
+#topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 28px;
+    background: #1a1a2e;
+    padding: 0 12px;
+    border-bottom: 1px solid #333;
+    font-size: 13px;
+    color: #aaa;
+    flex-shrink: 0;
+}
+#topbar-updated {
+    font-size: 11px;
+    color: #666;
+}
+
+/* Main layout */
+#main-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Left panel */
+#left-panel {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #333;
+    overflow: hidden;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 8px;
+    background: #1a1a2e;
+    border-bottom: 1px solid #444;
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #8af;
+    flex-shrink: 0;
+}
+
+.header-controls {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+#search-input {
+    background: #111;
+    border: 1px solid #444;
+    color: #d0d0d0;
+    padding: 2px 8px;
+    font-family: inherit;
+    font-size: 12px;
+    width: 200px;
+    outline: none;
+}
+#search-input:focus {
+    border-color: #8af;
+}
+
+#pause-btn {
+    background: #222;
+    border: 1px solid #444;
+    color: #d0d0d0;
+    cursor: pointer;
+    padding: 2px 8px;
+    font-size: 14px;
+    line-height: 1;
+}
+#pause-btn:hover {
+    background: #333;
+}
+#pause-btn.paused {
+    background: #553;
+    border-color: #aa0;
+}
+
+/* Table containers */
+#servers-table-container {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+#client-table-container {
+    max-height: 40%;
+    overflow-y: auto;
+    border-top: 1px solid #444;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    background: #111;
+    padding: 4px 8px;
+    text-align: left;
+    border-bottom: 1px solid #333;
+    color: #888;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+}
+thead th:hover {
+    color: #ccc;
+}
+thead th.sorted-asc::after {
+    content: ' ▲';
+    font-size: 10px;
+}
+thead th.sorted-desc::after {
+    content: ' ▼';
+    font-size: 10px;
+}
+
+tbody tr {
+    cursor: pointer;
+}
+tbody tr:hover {
+    background: #1a1a2e;
+}
+tbody tr.selected {
+    background: #1e3a5f;
+}
+tbody tr:nth-child(even) {
+    background: #0e0e0e;
+}
+tbody tr:nth-child(even):hover {
+    background: #1a1a2e;
+}
+tbody tr:nth-child(even).selected {
+    background: #1e3a5f;
+}
+
+td {
+    padding: 2px 8px;
+    border-bottom: 1px solid #1a1a1a;
+    white-space: nowrap;
+}
+
+/* Client table columns */
+#client-table th, #client-table td {
+    padding: 2px 6px;
+}
+
+/* Right panel */
+#right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #0d0d0d;
+}
+
+#server-detail {
+    border-bottom: 1px solid #444;
+}
+
+#detail-content {
+    flex-shrink: 0;
+    overflow-y: auto;
+    max-height: 30%;
+}
+#detail-pre {
+    padding: 8px;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #ccc;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+#info-panel {
+    border-top: 1px solid #444;
+    flex-shrink: 0;
+}
+#info-table td {
+    text-align: center;
+    padding: 4px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#login-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #444;
+    overflow: hidden;
+}
+#login-panel .panel-header {
+    flex-shrink: 0;
+}
+#login-table-container {
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* === NEW: Additional monitor panels === */
+
+#monitors-panel {
+    border-top: 1px solid #444;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+}
+
+#monitors-tabs {
+    display: flex;
+    flex-shrink: 0;
+    background: #111;
+    border-bottom: 1px solid #444;
+}
+
+.monitor-tab {
+    padding: 3px 10px;
+    font-size: 11px;
+    color: #888;
+    cursor: pointer;
+    border-right: 1px solid #333;
+    user-select: none;
+    white-space: nowrap;
+}
+.monitor-tab:hover {
+    color: #ccc;
+    background: #1a1a1a;
+}
+.monitor-tab.active {
+    color: #8af;
+    background: #1a1a2e;
+    border-bottom: 2px solid #8af;
+}
+.monitor-tab.has-warning {
+    color: #aa4;
+}
+
+#monitors-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 8px;
+    font-size: 11px;
+    color: #bbb;
+}
+
+.monitor-pane {
+    display: none;
+    height: 100%;
+}
+.monitor-pane.active {
+    display: block;
+}
+
+/* Disk pane */
+.disk-item {
+    border-bottom: 1px solid #222;
+    padding: 4px 0;
+}
+.disk-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 2px 0;
+}
+.disk-bar-fill {
+    height: 10px;
+    background: #4a4;
+    border-radius: 2px;
+    min-width: 2px;
+    transition: width 1s;
+}
+.disk-bar-fill.warning {
+    background: #aa4;
+}
+.disk-bar-fill.critical {
+    background: #a44;
+}
+.disk-label {
+    min-width: 120px;
+}
+.disk-pct {
+    min-width: 40px;
+    text-align: right;
+}
+.disk-forecast {
+    color: #888;
+    font-size: 10px;
+    margin-left: 8px;
+}
+
+/* Network pane */
+.iface-item {
+    border-bottom: 1px solid #222;
+    padding: 4px 0;
+}
+.iface-name {
+    color: #8af;
+    font-weight: bold;
+}
+.error-count {
+    color: #a44;
+}
+.drop-count {
+    color: #aa4;
+}
+.collision-count {
+    color: #a44;
+}
+
+/* Port scan pane */
+.scan-item {
+    border-bottom: 1px solid #222;
+    padding: 3px 0;
+}
+.scan-ip {
+    color: #a44;
+    font-weight: bold;
+}
+.scan-ports {
+    color: #888;
+    font-size: 10px;
+}
+
+/* Firewall pane */
+.fw-rule {
+    border-bottom: 1px solid #222;
+    padding: 2px 0;
+    font-size: 10px;
+}
+.fw-chain {
+    color: #8af;
+}
+.fw-target {
+    color: #4a4;
+    font-weight: bold;
+}
+.fw-target.drop, .fw-target.reject {
+    color: #a44;
+}
+
+/* WebServer pane */
+.ws-stat {
+    display: inline-block;
+    margin-right: 16px;
+    padding: 2px 0;
+}
+.ws-stat-value {
+    font-weight: bold;
+    color: #8af;
+}
+.ws-row {
+    padding: 1px 0;
+    font-size: 10px;
+}
+.ws-path {
+    color: #ccc;
+}
+.ws-ip {
+    color: #88f;
+}
+.ws-status {
+    font-weight: bold;
+}
+.ws-status-2xx { color: #4a4; }
+.ws-status-3xx { color: #88f; }
+.ws-status-4xx { color: #aa4; }
+.ws-status-5xx { color: #a44; }
+
+/* DNS pane */
+.dns-info {
+    padding: 4px 0;
+}
+.dns-key {
+    color: #888;
+}
+.dns-val {
+    color: #8af;
+    font-weight: bold;
+}
+
+/* Kill button */
+.kill-btn {
+    background: #622;
+    border: 1px solid #a44;
+    color: #d0d0d0;
+    cursor: pointer;
+    padding: 2px 10px;
+    font-size: 11px;
+    font-family: inherit;
+    margin-left: 8px;
+    border-radius: 2px;
+}
+.kill-btn:hover {
+    background: #833;
+}
+
+/* Status bar */
+#statusbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 24px;
+    background: #111;
+    padding: 0 12px;
+    border-top: 1px solid #333;
+    font-size: 11px;
+    color: #666;
+    flex-shrink: 0;
+}
+#status-message {
+    color: #888;
+}
+
+/* Traffic colors */
+.traffic-low { color: #4a4; }
+.traffic-mid { color: #aa4; }
+.traffic-high { color: #a44; }
+
+/* State colors */
+.state-established { color: #4a4; }
+.state-time-wait, .state-close { color: #666; }
+.state-default { color: #ccc; }
+
+/* Login status */
+.login-ok { color: #4a4; font-weight: bold; }
+.login-fail { color: #a44; font-weight: bold; }
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
